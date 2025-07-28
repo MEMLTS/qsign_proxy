@@ -18,12 +18,12 @@ export default class Server {
     public start(): void {
         this.app.use(cors());
         this.app.use(log);
+        this.app.use(KoaBody());
 
         for (const router of routers) {
             this.app.use(router.routes());
             this.app.use(router.allowedMethods());
         }
-        this.app.use(KoaBody());
         this.app.listen(this.port, this.host, () => {
             Logger.info(`Server listening on port ${this.port}`);
         });
