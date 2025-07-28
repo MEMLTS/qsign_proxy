@@ -64,7 +64,6 @@ router.get('/sign', async (ctx: Context) => {
 });
 
 router.post('/sign', async (ctx: Context) => {
-    Logger.info(ctx.request.body)
     await handleSignRequest(ctx, ctx.request.body || {});
 });
 
