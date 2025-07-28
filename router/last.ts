@@ -4,7 +4,7 @@ const router = new Router();
 import { forwardToSignService } from "@util/forward";
 
 function makeResponse() {
-    const response = forwardToSignService("last",{});
+    const response = forwardToSignService("last",{},"GET");
     return { "status": "success", "data": response };
 }
 
