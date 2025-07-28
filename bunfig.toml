@@ -1,0 +1,4 @@
+[build]
+entry = "./index.ts"
+minify = true
+target = "esnext"
