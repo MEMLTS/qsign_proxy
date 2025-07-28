@@ -13,8 +13,17 @@ function buildSignPayload(data: any): any {
     };
 }
 
+function makeResponse(data: any): any {
+    return {
+        code: 0,
+        status: "success",
+        data: data
+    };
+}
+
+
 function handleSignError(ctx: Context, error: any): void {
-    console.error('Sign service error:', error.message);
+    Logger.error('Sign service error:', error.message);
     if (error.response) {
         ctx.status = error.response.status;
         ctx.body = error.response.data;
@@ -38,7 +47,7 @@ router.get('/sign', async (ctx: Context) => {
         const payload = buildSignPayload(ctx.query);
         const response = await forwardToSignService("sign", payload);
         ctx.status = response.status;
-        ctx.body = response.data;
+        ctx.body = makeResponse(response.data);
     } catch (error: any) {
         handleSignError(ctx, error);
     }
@@ -49,7 +58,7 @@ router.post('/sign', async (ctx: Context) => {
         const payload = buildSignPayload(ctx.request.body || {});
         const response = await forwardToSignService("sign", payload);
         ctx.status = response.status;
-        ctx.body = response.data;
+        ctx.body = makeResponse(response.data);
     } catch (error: any) {
         handleSignError(ctx, error);
     }
