@@ -2,6 +2,7 @@ import Koa from 'koa';
 import cors from '@koa/cors';
 import log from '@middleware/logger';
 import routers from '@router/index';
+import KoaBody from 'koa-body';
 
 export default class Server {
     private app: Koa;
@@ -22,7 +23,7 @@ export default class Server {
             this.app.use(router.routes());
             this.app.use(router.allowedMethods());
         }
-
+        this.app.use(KoaBody());
         this.app.listen(this.port, this.host, () => {
             Logger.info(`Server listening on port ${this.port}`);
         });

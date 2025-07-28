@@ -13,7 +13,7 @@
     "esModuleInterop": true,
     "paths": {
       "@util/*": [
-        "utils/*"
+        "util/*"
       ],
       "@lib/*": [
         "lib/*"
