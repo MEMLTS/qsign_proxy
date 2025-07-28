@@ -22,9 +22,8 @@ async function handleSignRequest(ctx: Context, data: any) {
             data: response.data
         };
         try {
-            const hashKey = 'sign:count';
-            const uinField = data.uin.toString();
-            await Redis.incrementHashField(hashKey, uinField, 1);
+            await Redis.incrementHashField('sign:count', data.uin.toString(), 1);
+            await Redis.incrementHashField(`sign:count:${data.uin}`, data.cmd, 1);
         } catch (error) {
             Logger.error(error);
         }

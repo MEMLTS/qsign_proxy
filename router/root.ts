@@ -5,7 +5,7 @@ const router = new Router();
 function makeResponse() {
   return {
     msg: "IAA 云天明 章北海 Genshin自用签名 无白名单",
-    tip: "女大口算签名，欢迎使用",
+    tip: "女大口算签名,欢迎使用,交流群:323262505",
     code: 0,
     data: {
       protocol: {
