@@ -2,6 +2,7 @@ import Router from "@koa/router";
 import { type Context } from "koa";
 import { forwardToSignService } from "@util/forward";
 import Redis from "@lib/Redis";
+import { cmd_whitelist } from "@config/cmd_whitelist";
 
 const router = new Router();
 
@@ -13,6 +14,15 @@ async function handleSignRequest(ctx: Context, data: any) {
             buffer: data.buffer,
             cmd: data.cmd
         };
+
+        if (!cmd_whitelist.includes(data.cmd)) {
+            ctx.status = 403;
+            ctx.body = {
+                code: 403,
+                msg: "cmd not allowed"
+            };
+            return;
+        }
 
         const response = await forwardToSignService("sign", payload);
         ctx.status = response.status;
