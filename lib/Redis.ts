@@ -204,7 +204,6 @@ class Redis {
         field: string,
         increment: number = 1
     ): Promise<number> {
-        if (!this.isConnected) throw new Error("Redis not connected");
         return await this.client!.hIncrBy(hashKey, field, increment);
     }
     // ==================== 集合操作 ====================
