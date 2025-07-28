@@ -1,4 +1,5 @@
-import { createClient, RedisClientType } from 'redis';
+import { createClient, type RedisClientType } from "redis";
+import { config } from '@config/config';
 
 /**
  * Redis数据库操作类
@@ -18,15 +19,14 @@ class Redis {
         password?: string;
         db?: number;
     }) {
-        // 构建Redis连接配置
         const redisOptions: any = {};
 
         if (options?.url) {
             redisOptions.url = options.url;
         } else {
             redisOptions.socket = {
-                host: options?.host || 'localhost',
-                port: options?.port || 6379
+                host: options?.host || "localhost",
+                port: options?.port || 6379,
             };
             if (options?.password) {
                 redisOptions.password = options.password;
@@ -38,9 +38,8 @@ class Redis {
 
         this.client = createClient(redisOptions);
 
-        // 监听错误事件
-        this.client.on('error', (err) => {
-            console.error('Redis Client Error:', err);
+        this.client.on("error", (err) => {
+            Logger.error("Redis Client Error:", err);
         });
     }
 
@@ -51,9 +50,9 @@ class Redis {
     async connect(): Promise<void> {
         try {
             await this.client.connect();
-            console.log('Redis connected successfully');
+            Logger.info("Redis connected successfully");
         } catch (error) {
-            console.error('Failed to connect to Redis:', error);
+            Logger.error("Failed to connect to Redis:", error);
             throw error;
         }
     }
@@ -65,9 +64,9 @@ class Redis {
     async disconnect(): Promise<void> {
         try {
             await this.client.quit();
-            console.log('Redis disconnected successfully');
+            Logger.info("Redis disconnected successfully");
         } catch (error) {
-            console.error('Error disconnecting from Redis:', error);
+            Logger.error("Error disconnecting from Redis:", error);
             throw error;
         }
     }
@@ -98,7 +97,11 @@ class Redis {
      * @param options 可选配置 { EX: 过期时间(秒), PX: 过期时间(毫秒) }
      * @returns Promise<string | null> 成功返回'OK'
      */
-    async set(key: string, value: string, options?: { EX?: number; PX?: number }): Promise<string | null> {
+    async set(
+        key: string,
+        value: string,
+        options?: { EX?: number; PX?: number }
+    ): Promise<string | null> {
         if (options) {
             return await this.client.set(key, value, options);
         }
@@ -151,7 +154,11 @@ class Redis {
      * @param value 值
      * @returns Promise<number> 如果字段是新增的返回1，如果字段已存在且被更新返回0
      */
-    async setHashField(key: string, field: string, value: string): Promise<number> {
+    async setHashField(
+        key: string,
+        field: string,
+        value: string
+    ): Promise<number> {
         return await this.client.hSet(key, field, value);
     }
 
@@ -185,6 +192,21 @@ class Redis {
         return await this.client.hDel(key, fields);
     }
 
+    /**
+     * 增加Redis哈希表中指定字段的数值
+     * @param hashKey 哈希表的键名
+     * @param field 哈希表中的字段名
+     * @param increment 要增加的数值，默认为1
+     * @returns Promise<number> 返回增加后的字段值
+     */
+    async incrementHashField(
+        hashKey: string,
+        field: string,
+        increment: number = 1
+    ): Promise<number> {
+        if (!this.isConnected) throw new Error("Redis not connected");
+        return await this.client!.hIncrBy(hashKey, field, increment);
+    }
     // ==================== 集合操作 ====================
 
     /**
@@ -244,7 +266,11 @@ class Redis {
      * @param end 结束索引 (-1表示最后一个元素)
      * @returns Promise<string[]> 元素数组
      */
-    async getList(key: string, start: number = 0, end: number = -1): Promise<string[]> {
+    async getList(
+        key: string,
+        start: number = 0,
+        end: number = -1
+    ): Promise<string[]> {
         return await this.client.lRange(key, start, end);
     }
 
@@ -314,4 +340,6 @@ class Redis {
     }
 }
 
-export default Redis;
+// 创建全局单例实例
+export const redis = new Redis(config.redis);
+export default redis;
