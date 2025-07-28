@@ -3,11 +3,13 @@ import cmd_whitelist from './cmd_whitelist';
 import root from './root';
 import ver from './ver';
 import request_token from './request_token';
+import last from './last';
 
 export default [
     sign,
     cmd_whitelist,
     root,
     ver,
-    request_token
+    request_token,
+    last
 ];
