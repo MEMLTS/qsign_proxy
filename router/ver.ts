@@ -15,11 +15,7 @@ function makeResponse() {
     };
 }
 
-router.get("/ver", async (ctx: Context) => {
-    ctx.body = makeResponse();
-});
-
-router.post("/ver", async (ctx: Context) => {
+router.all("/ver", async (ctx: Context) => {
     ctx.body = makeResponse();
 });
 

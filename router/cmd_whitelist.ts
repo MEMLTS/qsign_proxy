@@ -13,11 +13,7 @@ function makeWhitelist() {
   };
 }
 
-router.get("/cmd_whitelist", async (ctx: Context) => {
-    ctx.body = makeWhitelist();
-});
-
-router.post("/cmd_whitelist", async (ctx: Context) => {
+router.all("/cmd_whitelist", async (ctx: Context) => {
     ctx.body = makeWhitelist();
 });
 

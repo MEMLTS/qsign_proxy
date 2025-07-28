@@ -8,11 +8,7 @@ function makeResponse() {
     return { "status": "success", "data": response };
 }
 
-router.get("/last", async (ctx: Context) => {
-    ctx.body = makeResponse();
-});
-
-router.post("/last", async (ctx: Context) => {
+router.all("/last", async (ctx: Context) => {
     ctx.body = makeResponse();
 });
 

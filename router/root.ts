@@ -21,19 +21,11 @@ function makeResponse() {
   };
 }
 
-router.get("/", async (ctx: Context) => {
+router.all("/", async (ctx: Context) => {
   ctx.body = makeResponse();
 });
 
-router.post("/", async (ctx: Context) => {
-  ctx.body = makeResponse();
-});
-
-router.get("/energy", async (ctx: Context) => {
-  ctx.body = makeResponse();
-});
-
-router.post("/energy", async (ctx: Context) => {
+router.all("/energy", async (ctx: Context) => {
   ctx.body = makeResponse();
 });
 

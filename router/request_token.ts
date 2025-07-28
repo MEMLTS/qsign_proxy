@@ -13,11 +13,7 @@ function makeWhitelist() {
   };
 }
 
-router.get("/request_token", async (ctx: Context) => {
-    ctx.body = makeWhitelist();
-});
-
-router.post("/request_token", async (ctx: Context) => {
+router.all("/request_token", async (ctx: Context) => {
     ctx.body = makeWhitelist();
 });
 
