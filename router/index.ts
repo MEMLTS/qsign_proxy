@@ -4,6 +4,7 @@ import root from './root';
 import ver from './ver';
 import request_token from './request_token';
 import last from './last';
+import admin from './admin';
 
 export default [
     sign,
@@ -11,5 +12,6 @@ export default [
     root,
     ver,
     request_token,
-    last
+    last,
+    admin
 ];

@@ -1,6 +1,10 @@
 export const config = {
     sign: {
-        baseUrl: 'http://localhost:5800'
+        baseUrl: 'http://localhost:5800',
+        cmd: "blacklist" // blacklist or whitelist
+    },
+    admin: {
+        token: "114514"
     },
     redis: {
         host: "192.168.1.7",
